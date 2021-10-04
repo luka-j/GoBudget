@@ -16,5 +16,5 @@ type TransactionEnvelope struct {
 	Database.Model
 	Transaction Transaction
 	Envelope    Envelope
-	Amount      decimal.Decimal `gorm:"type:envelope_type"`
+	Amount      decimal.Decimal `gorm:"type:decimal"`
 }
