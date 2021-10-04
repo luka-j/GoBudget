@@ -39,4 +39,4 @@ Non-goals
 - Debt handling
 - Any advanced financing
 - Any overly fancy graphs
-- Ultratight security / addressing Google-level threat model
+- Ultratight security / addressing enterprise-level threat model (e.g. non-trivial DDoSes)

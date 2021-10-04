@@ -13,7 +13,6 @@ type RegisterRequest struct {
 
 type UserResponse struct {
 	Status string `json:"status"`
-	Token  string `json:"token"`
 }
 
 func register(c *gin.Context) {
@@ -25,6 +24,5 @@ func register(c *gin.Context) {
 	Entities.CreateUser(request.Username, request.Email, request.Password)
 	c.JSON(200, UserResponse{
 		Status: "SUCCESS",
-		Token:  "Todo write token generating logic",
 	})
 }

@@ -1,4 +1,5 @@
 create schema gobudget;
+create extension "uuid-ossp";
 
 create table gobudget.users(
     id UUID primary key default uuid_generate_v4(),

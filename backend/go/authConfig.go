@@ -5,12 +5,14 @@ import (
 	"github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"log"
+	"os"
 	"time"
 )
 
 type User struct {
 	Username string
 	Email    string
+	UserId   string
 }
 
 type UserCredentials struct {
@@ -19,10 +21,10 @@ type UserCredentials struct {
 }
 
 func InitAuthMiddleware(r *gin.Engine) *gin.RouterGroup {
-	identityKey := "id"
+	identityKey := "sub"
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:       "test zone",
-		Key:         []byte("secret key"),
+		Realm:       "test",
+		Key:         []byte(os.Getenv("JWT_KEY")),
 		IdentityKey: identityKey,
 		Timeout:     time.Hour,
 		MaxRefresh:  24 * time.Hour,
@@ -37,12 +39,13 @@ func InitAuthMiddleware(r *gin.Engine) *gin.RouterGroup {
 				return nil, jwt.ErrFailedAuthentication
 			}
 
-			return &User{user.Username, user.Email}, nil
+			return &User{user.Username, user.Email, user.ID.String()}, nil
 		},
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*User); ok {
 				return jwt.MapClaims{
-					identityKey: v.Email,
+					identityKey: v.UserId,
+					"email":     v.Email,
 					"username":  v.Username,
 				}
 			}

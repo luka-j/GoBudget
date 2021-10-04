@@ -2,6 +2,7 @@ package Entities
 
 import (
 	"GoBudget/Database"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/matthewhartstonge/argon2"
@@ -52,5 +53,12 @@ func LoginUser(email, password string) (User, error) {
 	} else {
 		return User{}, gorm.ErrRecordNotFound
 	}
+}
 
+func GetUser(id string) (User, error) {
+	var user User
+	if result := Database.DB.Find(&user, uuid.MustParse(id)); result.Error != nil {
+		return User{}, result.Error
+	}
+	return user, nil
 }
