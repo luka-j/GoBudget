@@ -3,12 +3,14 @@ package Entities
 import (
 	"GoBudget/Database"
 	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 )
 
 type BankAccount struct {
 	Database.Model
-	Name   string
-	UserID uuid.UUID `gorm:"references:ID;foreignKey:user_id"`
+	Name           string
+	UserID         uuid.UUID       `gorm:"references:ID;foreignKey:user_id"`
+	CurrentBalance decimal.Decimal `gorm:"type:decimal"`
 }
 
 func CreateAccount(name string, userId string) (BankAccount, error) {
