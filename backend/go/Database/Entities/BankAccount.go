@@ -48,3 +48,13 @@ func RenameAccount(id string, userId string, newName string) (BankAccount, error
 	}
 	return account, nil
 }
+
+func DeleteAccount(id string, userId string) error {
+	var account BankAccount
+	getResult := Database.DB.Where("id=? AND user_id=?", id, userId).Take(&account)
+	if getResult.Error != nil {
+		return getResult.Error
+	}
+	result := Database.DB.Delete(&account)
+	return result.Error
+}

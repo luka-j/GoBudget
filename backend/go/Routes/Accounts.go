@@ -60,3 +60,12 @@ func renameAccount(c *gin.Context) {
 	}
 	c.JSON(200, AccountResponse{Id: account.ID.String(), Name: account.Name})
 }
+
+func deleteAccount(c *gin.Context) {
+	id := c.Param("id")
+	userId := jwt.ExtractClaims(c)["sub"].(string)
+	if err := Entities.DeleteAccount(id, userId); err != nil {
+		panic(err)
+	}
+	c.Status(200)
+}
